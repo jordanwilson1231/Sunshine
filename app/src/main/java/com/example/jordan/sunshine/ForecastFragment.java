@@ -118,6 +118,8 @@ public class ForecastFragment extends Fragment {
                 return true;
             case R.id.action_settings:
                 Toast.makeText(getActivity(), "Opening settings...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
