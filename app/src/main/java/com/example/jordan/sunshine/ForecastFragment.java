@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,9 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Jordan on 7/24/2014.
@@ -41,20 +40,6 @@ import java.util.List;
 public class ForecastFragment extends Fragment {
     private ArrayAdapter<String> mForecastAdapter;
 
-    //A string[] of mock data
-    public String[] forecastArray = {
-            "Fetching Weather Forecast...",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-    };
-
-    List<String> weekForecast = new ArrayList<String>(
-            Arrays.asList(forecastArray));
-
     public ForecastFragment() {
     }
 
@@ -62,20 +47,22 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_my, container, false);
-
         super.onCreate(savedInstanceState);
         //Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
 
-        Toast.makeText(getActivity(), "Running Sunshine App", Toast.LENGTH_SHORT).show();
-
+        //The ArrayAdapter will take data from a source and
+        //use it to populate the ListView it's attached to.
         mForecastAdapter =
                 new ArrayAdapter<String>(
-                    getActivity(),
-                    R.layout.list_item_forecast,
-                    R.id.list_item_forecast_textview,
-                    weekForecast);
+                        getActivity(),
+                        R.layout.list_item_forecast,
+                        R.id.list_item_forecast_textview,
+                        new ArrayList<String>());
+
+        View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+
+
 
         // Get a reference to the ListView, and attach this adapter to it
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -84,17 +71,12 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forecast = mForecastAdapter.getItem(position);
-                Toast.makeText(getActivity(), forecast, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, forecast);
                 startActivity(intent);
 
             }
         });
-
-        //Populate the listView with fetched weather forcast data
-        FetchWeatherTask weatherTask = new FetchWeatherTask();
-        weatherTask.execute("Saanich");
 
         return rootView;
     }
@@ -112,18 +94,30 @@ public class ForecastFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                Toast.makeText(getActivity(), "Refreshing...", Toast.LENGTH_SHORT).show();
-                FetchWeatherTask weatherTask = new FetchWeatherTask();
-                weatherTask.execute("Saanich");
+                updateWeather();
                 return true;
             case R.id.action_settings:
-                Toast.makeText(getActivity(), "Opening settings...", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        String location = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(getString(R.string.pref_location_key),
+                        getString(R.string.pref_location_default));
+        weatherTask.execute(location);
+    }
+
+    @Override
+    public void onStart() {
+        Toast.makeText(getActivity(), "Updating weather...", Toast.LENGTH_SHORT).show();
+        super.onStart();
+        updateWeather();
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
