@@ -15,4 +15,9 @@
     <!--Default postal code for location preferences [CHAR LIMIT=NONE]-->
     <string name="pref_location_default" translatable="false">Saanich</string>
 
+    <string name="pref_units_label">Units</string>
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_metric">metric</string>
+    <string name="pref_units_imperial">imperial</string>
+
 </resources>

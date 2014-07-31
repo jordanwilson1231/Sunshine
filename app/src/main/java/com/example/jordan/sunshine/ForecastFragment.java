@@ -1,6 +1,7 @@
 package com.example.jordan.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +115,6 @@ public class ForecastFragment extends Fragment {
 
     @Override
     public void onStart() {
-        Toast.makeText(getActivity(), "Updating weather...", Toast.LENGTH_SHORT).show();
         super.onStart();
         updateWeather();
     }
@@ -247,6 +246,22 @@ public class ForecastFragment extends Fragment {
         * Prepare the weather high/lows for presentation.
         */
         private String formatHighLows(double high, double low) {
+            //Data is fetched in Celsius by default.
+            //If user prefers to see in Farenheit, conveSrt the values here.
+
+            SharedPreferences sharedPrefs =
+                        PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(
+                    getString(R.string.pref_units_key),
+                        getString(R.string.pref_units_metric));
+
+            if (unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else if (!unitType.equals(getString(R.string.pref_units_metric))) {
+                Log.d(LOG_TAG, "Unit type not found: " + unitType);
+            }
+
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
