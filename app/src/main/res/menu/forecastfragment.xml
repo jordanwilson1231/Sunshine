@@ -4,9 +4,7 @@
     tools:context="com.example.android.sunshine.app.MyActivity" >
     <item android:id="@+id/action_refresh"
         app:showAsAction="never"
+        android:orderInCategory="1"
         android:title="@string/action_refresh"/>
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+
 </menu>

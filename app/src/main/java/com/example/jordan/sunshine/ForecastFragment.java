@@ -39,6 +39,7 @@ import java.util.Date;
 
 public class ForecastFragment extends Fragment {
     private ArrayAdapter<String> mForecastAdapter;
+    private final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     public ForecastFragment() {
     }
@@ -81,11 +82,12 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    @Override
+
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.forecastfragment, menu);
-    }
+     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,14 +98,12 @@ public class ForecastFragment extends Fragment {
             case R.id.action_refresh:
                 updateWeather();
                 return true;
-            case R.id.action_settings:
-                Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(intent);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
     private void updateWeather() {
         FetchWeatherTask weatherTask = new FetchWeatherTask();
