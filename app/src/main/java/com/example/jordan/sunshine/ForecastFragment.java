@@ -141,7 +141,7 @@ public class ForecastFragment extends Fragment {
 
             String format = "json";
             String units = "metric";
-            int numDays = 7;
+            int numDays = getNumberOfForecastDays();
 
             try {
                 /**CONNECT TO API**/
@@ -240,6 +240,19 @@ public class ForecastFragment extends Fragment {
             Date date = new Date(time * 1000);
             SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
             return format.format(date);
+        }
+
+        private int getNumberOfForecastDays() {
+            SharedPreferences sharedPrefs =
+                    PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String numDays = sharedPrefs.getString(
+                    getString(R.string.pref_numDays_key),
+                    getString(R.string.pref_numDays_default));
+            int numDaysInt = Integer.parseInt(numDays);
+            if (numDaysInt > 0 && numDaysInt < 15) {
+                return numDaysInt;
+            }
+            return 0;
         }
 
         /**

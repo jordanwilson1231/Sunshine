@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DetailActivity extends ActionBarActivity {
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
@@ -25,8 +24,6 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-
     }
 
 
@@ -42,14 +39,28 @@ public class DetailActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "Opening settings...", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //Open the settings menu.
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_share:
+                shareDetailedForecast();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Implicitly shares detailed forecast string
+    public boolean shareDetailedForecast() {
+
+        String shareMessage = this.getIntent().getStringExtra(Intent.EXTRA_TEXT) + " #Sunshine";
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,shareMessage);
+        startActivity(shareIntent);
+        return true;
     }
 
     /**

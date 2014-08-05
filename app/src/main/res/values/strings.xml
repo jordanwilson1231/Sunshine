@@ -20,5 +20,9 @@
     <string name="pref_units_key" translatable="false">units</string>
     <string name="pref_units_metric">metric</string>
     <string name="pref_units_imperial">imperial</string>
+    <string name="action_share">Share</string>
+    <string name="pref_numDays_label">Number of Days</string>
+    <string name="pref_numDays_key">numberOfDays</string>
+    <string name="pref_numDays_default">7</string>
 
 </resources>

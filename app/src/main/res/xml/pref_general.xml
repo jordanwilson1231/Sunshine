@@ -18,4 +18,13 @@
         android:entryValues="@array/pref_units_values"
         android:entries="@array/pref_units_options" />
 
+    <ListPreference
+        android:title="@string/pref_numDays_label"
+        android:key="@string/pref_numDays_key"
+        android:defaultValue="@string/pref_numDays_default"
+        android:entryValues="@array/pref_numDays_values"
+        android:entries="@array/pref_numDays_options" />
+
+
+
 </PreferenceScreen>
