@@ -22,6 +22,33 @@ public class MyActivity extends ActionBarActivity {
                     .add(R.id.container, new ForecastFragment())
                     .commit();
         }
+        Log.v(LOG_TAG, "onCreate() executed");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.v(LOG_TAG, "onStart() executed");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(LOG_TAG, "onPause() executed");
+    }
+    @Override
+    protected void  onStop() {
+        super.onStop();
+        Log.v(LOG_TAG, "onStop() executed");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(LOG_TAG, "onResume() executed");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v(LOG_TAG, "onDestroy() executed");
     }
 
 

@@ -52,7 +52,7 @@ public class ForecastFragment extends Fragment {
         //Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
 
-        //The ArrayAdapter will take data from a source and
+        //The ArrayAdapter will take com.example.jordan.sunshine.data from a source and
         //use it to populate the ListView it's attached to.
         mForecastAdapter =
                 new ArrayAdapter<String>(
@@ -150,7 +150,7 @@ public class ForecastFragment extends Fragment {
                 Possible parameters are available at OWM's forecast API page, at
                 http://openweathermap.org/API#forecast **/
                 final String FORECAST_BASE_URL =
-                        "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                        "http://api.openweathermap.org/com.example.jordan.sunshine.data/2.5/forecast/daily?";
                 final String QUERY_PARAM = "q";
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
@@ -194,7 +194,7 @@ public class ForecastFragment extends Fragment {
                 forecastJsonStr = buffer.toString();
 
                 //Try to parse the JSON string returned from the OWM API
-                //into a String[] of daily weather data
+                //into a String[] of daily weather com.example.jordan.sunshine.data
                 try {
                     return getWeatherDataFromJson(forecastJsonStr, numDays);
                 } catch (JSONException e) {
@@ -204,7 +204,7 @@ public class ForecastFragment extends Fragment {
 
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in attempting
+                // If the code didn't successfully get the weather com.example.jordan.sunshine.data, there's no point in attempting
                 // to parse it.
                 return null;
             } finally {
@@ -285,7 +285,7 @@ public class ForecastFragment extends Fragment {
 
         /**
          * Take the String representing the complete forecast in JSON Format and
-         * pull out the data we need to construct the Strings needed for the wireframes.
+         * pull out the com.example.jordan.sunshine.data we need to construct the Strings needed for the wireframes.
          *
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
